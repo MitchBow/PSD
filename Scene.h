@@ -117,6 +117,49 @@ private:
 //     // Material material_;
 // };
 
+// Plane class implementation
+class Plane : public Object {
+public:
+    // Constructor for the Plane class
+    Plane(const Point3& point, const Vector3& normal) : point_(point), normal_(normal.unitVector()) {}
+
+    // Override the rayHit function to check for intersections
+    std::optional<HitRecord> rayHit(const Ray& ray, Interval rayInterval) const override {
+        // Calculate the denominator for the intersection formula (dot product of ray direction and plane normal)
+        double denominator = ray.direction().dot(normal_);
+
+        // If the denominator is close to zero, the ray is parallel to the plane
+        if (fabs(denominator) < 1e-6) {
+            return std::nullopt;
+        }
+
+        // Calculate the t value for the intersection point using the formula
+        double t = (point_ - ray.origin()).dot(normal_) / denominator;
+
+        // Ensure the intersection is within the ray's interval
+        if (t < rayInterval.min() || t > rayInterval.max()) {
+            return std::nullopt;  // Intersection outside the ray's valid interval
+        }
+
+        // Calculate the hit point and return the hit record
+        Point3 hitPoint = ray.pointAlongRay(t);
+
+        // Return the hit record
+        HitRecord hitRecord;
+        hitRecord.setHitPoint(hitPoint);
+        hitRecord.setSurfaceNormal(normal_);
+        hitRecord.setDistanceAlongRay(t);
+        hitRecord.setFrontFace(true);  // Plane always has a front face by convention
+
+        return hitRecord;
+    }
+
+private:
+    Point3 point_;  // A point on the plane
+    Vector3 normal_;  // The normal vector of the plane
+};
+
+
 class Scene : public Object {
 public:
     Scene(Object* o) {
