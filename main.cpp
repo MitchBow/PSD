@@ -57,7 +57,24 @@ private:
     Vector3 normal_;  // The normal vector of the plane
 };
 
-// Update rayColor to also check for plane intersections
+
+
+void updateProgressBar(int rowsDone, int imageHeight) {
+    float percentage = ((float)(imageHeight - rowsDone) / imageHeight) * 100;
+    std::cout << "[";
+    for (int i = 0; i < 50; i++) {
+        if (i < (percentage / 2)) {
+            std::cout << "#";
+        } else {
+            std::cout << " ";
+        }
+    }
+    std::cout << "] " << percentage << "% \r" << std::flush;
+}
+
+#include <cmath> // Add this at the top if not already
+
+
 Color3 rayColor(const Ray& r) {
     Point3 sphereCenter(0, 0, -1);
     double radius = 0.5;
@@ -91,25 +108,6 @@ Color3 rayColor(const Ray& r) {
     Color3 blue(0.5, 0.7, 1.0);
     return (1.0 - lerpFactor) * white + lerpFactor * blue;
 }
-
-
-void updateProgressBar(int rowsDone, int imageHeight) {
-    float percentage = ((float)(imageHeight - rowsDone) / imageHeight) * 100;
-    std::cout << "[";
-    for (int i = 0; i < 50; i++) {
-        if (i < (percentage / 2)) {
-            std::cout << "#";
-        } else {
-            std::cout << " ";
-        }
-    }
-    std::cout << "] " << percentage << "% \r" << std::flush;
-}
-
-#include <cmath> // Add this at the top if not already
-
-
-
 
 
 
