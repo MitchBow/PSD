@@ -59,7 +59,7 @@ Color3 rayColor(const Ray& r) {
     if (discriminant > 0) {
         double t = (-half_b - sqrt(discriminant)) / a;
         Vector3 normal = (r.pointAlongRay(t) - sphereCenter).unitVector();
-        return Color3(0.5 * (normal.x() + 1), 0.5 * (normal.y() + 1), 0.5 * (normal.z() + 1));
+        return Color3(1.0, 0.0, 0.0);
     }
 
     Vector3 unitDirection = r.direction().unitVector();
