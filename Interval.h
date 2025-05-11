@@ -39,7 +39,8 @@ private:
     double max_ {-infinity};
 };
 
-const auto Interval::emptyInterval = Interval(+infinity, -infinity);
-const auto Interval::infiniteInterval = Interval(-infinity, +infinity);
+// Correct definition of static members without "const auto"
+const Interval Interval::emptyInterval(+infinity, -infinity);
+const Interval Interval::infiniteInterval(-infinity, +infinity);
 
 #endif //RAYTRACER_INTERVAL_H
