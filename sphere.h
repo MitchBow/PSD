@@ -4,6 +4,7 @@
 #include "hittable.h"
 #include "rtweekend.h"
 #include "interval.h"
+#include "camera.h"
 
 //#include "Vec3.h"
 
