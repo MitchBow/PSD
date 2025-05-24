@@ -17,6 +17,8 @@
 int main() {
     hittable_list world;
 
+    bool antialiasing = true;
+
     auto material_ground = make_shared<lambertian>(color(0.8, 0.8, 0.0));
     auto material_center = make_shared<lambertian>(color(0.1, 0.2, 0.5));
     auto material_left   = make_shared<metal>(color(0.8, 0.8, 0.8));
@@ -30,8 +32,16 @@ int main() {
 
     cam.aspect_ratio = 16.0 / 9.0;
     cam.image_width  = 400;
-    cam.samples_per_pixel = 100;
-     cam.max_depth         = 50;
+
+    if(antialiasing == true){
+        cam.samples_per_pixel = 100;
+    }
+    else{
+        cam.samples_per_pixel = 30;
+    }
+
+    
+    cam.max_depth = 50;
 
     cam.render(world);
 }
