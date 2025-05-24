@@ -4,6 +4,8 @@
 #include "hittable.h"
 #include "rtweekend.h"
 #include "interval.h"
+#include "aabb.h"
+
 #include "camera.h"
 
 //#include "Vec3.h"
@@ -43,6 +45,15 @@ class sphere : public hittable {
 
         return true;
     }
+
+    bool bounding_box(double time0, double time1, aabb& output_box) const override {
+      output_box = aabb(
+          center - vec3(radius, radius, radius),
+          center + vec3(radius, radius, radius)
+      );
+      return true;
+  }
+
 
     
 
