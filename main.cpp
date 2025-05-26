@@ -9,6 +9,7 @@
 #include "interval.h"
 #include "camera.h"
 #include "material.h"
+#include "checker_texture.h"
 
 #include <fstream>
 #include <iostream>
@@ -19,15 +20,31 @@ int main() {
 
     bool antialiasing = true;
 
-    auto material_ground = make_shared<lambertian>(color(0.8, 0.8, 0.0));
+    //floor
+    auto material_checker = make_shared<checker_texture>(color(0.2, 0.3, 0.1), color(0.9, 0.9, 0.9), 5.0);
+    world.add(make_shared<sphere>(point3(0.0, -100.5, -1.0), 100.0, material_checker));
+
+    //sphere
+    auto checker_sphere_mat = make_shared<checker_texture>(
+        color(1, 0, 0),  // red
+        color(1, 1, 1),  // white
+        20.0            // higher frequency = smaller checks
+    );
+
+    world.add(make_shared<sphere>(point3(1.0, 0.1, -1.0), 0.5, checker_sphere_mat));
+
+
+    //auto material_ground = make_shared<lambertian>(color(0.8, 0.8, 0.0));
     auto material_center = make_shared<lambertian>(color(0.1, 0.2, 0.5));
     auto material_left   = make_shared<metal>(color(0.8, 0.8, 0.8));
-    auto material_right  = make_shared<metal>(color(0.8, 0.6, 0.2));
+    //auto material_right  = make_shared<metal>(color(0.8, 0.6, 0.2));
 
-    world.add(make_shared<sphere>(point3( 0.0, -100.5, -1.0), 100.0, material_ground));
+    //world.add(make_shared<sphere>(point3( 0.0, -100.5, -1.0), 100.0, material_ground));
     world.add(make_shared<sphere>(point3( 0.0,    0.0, -1.2),   0.5, material_center));
     world.add(make_shared<sphere>(point3(-1.0,    0.0, -1.0),   0.5, material_left));
-    world.add(make_shared<sphere>(point3( 1.0,    0.0, -1.0),   0.5, material_right));
+   // world.add(make_shared<sphere>(point3( 1.0,    0.0, -1.0),   0.5, material_right));
+
+
     camera cam;
 
     cam.aspect_ratio = 16.0 / 9.0;
