@@ -1,4 +1,4 @@
-
+//Mitchell Bowell 21610317
 #include "rtweekend.h"
 #include "color.h"
 #include "ray.h"
@@ -10,6 +10,7 @@
 #include "camera.h"
 #include "material.h"
 #include "checker_texture.h"
+#include "plane.h"
 
 #include <fstream>
 #include <iostream>
@@ -18,11 +19,17 @@
 int main() {
     hittable_list world;
 
-    bool antialiasing = true;
+    bool antialiasing = true; //turn on or off antialiasing
 
     //floor
-    auto material_checker = make_shared<checker_texture>(color(0.2, 0.3, 0.1), color(0.9, 0.9, 0.9), 5.0);
-    world.add(make_shared<sphere>(point3(0.0, -100.5, -1.0), 100.0, material_checker));
+    auto ground_material = make_shared<checker_texture>(
+        color(0.2, 0.8, 0.2),  // green
+        color(1, 1, 1),  // white
+        20.0            // higher frequency = smaller checks
+    );
+
+    world.add(make_shared<plane>(point3(0, -0.5, -1.5), vec3(0, 1, 0), ground_material));
+
 
     //sphere
     auto checker_sphere_mat = make_shared<checker_texture>(
